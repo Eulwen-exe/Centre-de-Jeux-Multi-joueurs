@@ -1,4 +1,6 @@
 import random
+import time
+import msvcrt  # windows only
 
 def calcul_mental_menu():
     menu = """
@@ -21,43 +23,79 @@ choisis la difficulté :
     except ValueError:
         print("entre un nombre valide")
         return None
-    
-def calcul_mental(max):
+
+
+def input_avec_timeout(prompt, limite=30):
+    # saisie non bloquante + timeout
+    debut = time.time()
+    texte = ""
+
+    while True:
+        restant = limite - int(time.time() - debut)
+        if restant <= 0:
+            print(f"\r{prompt}{texte}   (0s) ")
+            return None
+
+        # affiche le prompt + texte tapé + temps restant
+        print(f"\r{prompt}{texte}   ({restant}s) ", end="", flush=True)
+
+        if msvcrt.kbhit():
+            c = msvcrt.getwch()
+
+            if c == "\r":  # entrée
+                print()
+                return texte
+            elif c == "\b":  # backspace
+                texte = texte[:-1]
+            elif c in ("\x00", "\xe0"):  # touches spéciales (flèches, etc.)
+                _ = msvcrt.getwch()
+            else:
+                texte += c
+
+        time.sleep(0.05)
+
+
+def calcul_mental(max_valeur):
     score = 0
-    question = 5 
-    
-    print("Le calcul mental a commencé !")
-    for nombre in range(question):
-        operation = random.choice(["+","-","*"])
-        nombre_1 = random.randint(1 , max)
-        nombre_2 = random.randint(1, max)
+    questions = 5
+    temps_limite = 30
+
+    print("\nLe calcul mental a commencé ! (30s par question)\n")
+
+    for i in range(questions):
+        operation = random.choice(["+", "-", "*"])
+        nombre_1 = random.randint(1, max_valeur)
+        nombre_2 = random.randint(1, max_valeur)
 
         if operation == "-":
             if nombre_2 > nombre_1:
                 nombre_1, nombre_2 = nombre_2, nombre_1
-                resultat = nombre_1 - nombre_2
+            resultat = nombre_1 - nombre_2
         elif operation == "+":
             resultat = nombre_1 + nombre_2
         else:
             resultat = nombre_1 * nombre_2
-        
-        try:
-            reponse = (input(f"question {nombre+1} : {nombre_1} {operation} {nombre_2} = "))
-        except ValueError:
-            print("réponse invalide")
-            reponse = None
-        
+
+        prompt = f"question {i+1} : {nombre_1} {operation} {nombre_2} = "
+        reponse = input_avec_timeout(prompt, temps_limite)
+
+        if reponse is None:
+            print("temps écoulé")
+            print(f"faux, la bonne réponse était {resultat} !\n")
+            continue
+
         if reponse.isdigit() and int(reponse) == resultat:
-            print("juste !")
+            print("juste !\n")
             score += 1
         else:
-            print(f"faux, la bonne réponse était {resultat} !")
-        
-    print(f"Ton score final est de : {score}/ {question} !")
+            print(f"faux, la bonne réponse était {resultat} !\n")
+
+    print(f"Ton score final est de : {score}/{questions} !")
+
 
 def main():
-    max = calcul_mental_menu()
-    if max is not None:
-        calcul_mental(max)
-    
+    max_valeur = calcul_mental_menu()
+    if max_valeur is not None:
+        calcul_mental(max_valeur)
+
 main()
