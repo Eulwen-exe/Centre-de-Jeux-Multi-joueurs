@@ -40,13 +40,8 @@ def creer_profil(): # fonction pour creer le profil du joueur qui permets de cre
 def verifier_succes():
     nom = input ("Quel est ton nom ? : ")
     profil_informations = charger_profil(nom)
-    print(f"Voici tous tes succès : {profil["succes"]}")
+    print(f"Voici tous tes succès : {profil_informations["succes"]}")
        
-    
-
-def calculer_points(nom_fichier): 
-    profil = charger_profil(nom_fichier)
-    print(f"Voici tous tes succès : {profil["succes"]}")
     
     
 theme_pendu = [
