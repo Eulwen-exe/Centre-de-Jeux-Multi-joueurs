@@ -2,7 +2,7 @@ import random
 import json
 import time
 import msvcrt  # windows only
-
+from datetime import datetime
 
 profil = {"prenom": "",
           "date_creation":"",
@@ -33,7 +33,8 @@ def creer_profil():
     sauvegarder(f"{prenom}.json", profil)
     temp = charger_profil(f"{prenom}.json")
     temp["prenom"] = prenom
-    sauvegarder(f"{prenom}.json", temp)
+    temp["date_creation"] = datetime.now().strftime("%d/%m/%Y %H:%M")
+    sauvegarder(f"{prenom}.json", profil)
     
 def verifier_succes():
     nom = input ("Quel est ton nom ? : ")
