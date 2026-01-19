@@ -475,34 +475,34 @@ def calcul_mental(max_valeur):
     if score == 0 and difficulte_calcul_mental == 1:
         compte["parties"] += 1
         compte["score_total"] += 0
-    if score <= 5 and difficulte_calcul_mental == 1:
+    if score <= 2 and difficulte_calcul_mental == 1:
         compte["parties"] += 1
         compte["score_total"] += 25
-    if score == 10 and difficulte_calcul_mental == 1:
+    if score == 5 and difficulte_calcul_mental == 1:
         compte["parties"] += 1
         compte["score_total"] += 50
         if succes_1 not in compte["succes"]:
             compte["succes"].append(succes_1)
-    if score <= 5 and difficulte_calcul_mental == 2:
+    if score <= 0 and difficulte_calcul_mental == 2:
         compte["parties"] += 1
         compte["score_total"] += 20
-    if score <= 14 and difficulte_calcul_mental == 2:
+    if score <= 2 and difficulte_calcul_mental == 2:
         compte["parties"] += 1
         compte["score_total"] += 50
-    if score == 20 and difficulte_calcul_mental == 2:
+    if score == 5 and difficulte_calcul_mental == 2:
         compte["parties"] += 1
         compte["score_total"] += 100
         if succes_2 not in compte["succes"]:
             compte["succes"].append(succes_2)
-    if score <= 15 and difficulte_calcul_mental == 3:
+    if score <= 0 and difficulte_calcul_mental == 3:
         compte["parties"] += 1
-        compte["score_total"] += 50
-    if score <= 35 and difficulte_calcul_mental == 3:
+        compte["score_total"] += 20
+    if score <= 2 and difficulte_calcul_mental == 3:
         compte["parties"] += 1
-        compte["score_total"] += 400
-    if score == 50 and difficulte_calcul_mental == 3:
+        compte["score_total"] += 150
+    if score == 5 and difficulte_calcul_mental == 3:
         compte["parties"] += 1
-        compte["score_total"] += 750
+        compte["score_total"] += 300
         if succes_3 not in compte["succes"]:
             compte["succes"].append(succes_3)
     elif succes_4 not in compte["succes"]:
