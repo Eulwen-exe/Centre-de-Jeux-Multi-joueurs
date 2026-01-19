@@ -1,123 +1,111 @@
 import random
 import json
 import time
-import msvcrt  # bibliothèque pour le compteur seulement sur windows
+import msvcrt  # windows only
+from datetime import datetime
 
 
 profil = {"prenom": "",
           "date_creation":"",
           "parties": 0,
           "score_total": 0,
-          "succes": ""}
+          "succes": []}
+
+liste_succes = [
+    ["gg (premiere victoire)"],
+    ["apprentit puant (10 parties joués)"], 
+    ["puant ultime (50 parties joués)"],
+    ["tryhardeur (atteindre les 1000 points)"],
+    ["encore en vie ! (gagner au pendue)"],
+    ["maitre du calcul débutant (mode facile)"],
+    ["maitre du calcul vétéran (mode moyen)"],
+    ["maitre du calcul ultime (mode difficile)"],
+    ["petit veinard (trouver le chiffre en moins de 5 essaies en mode facile)"],
+    ["veinard (trouver le chiffre en moins de 8 essaies en mode moyen)"],
+    ["veinard ultime (trouver le chiffre en moins de 15 essaies en mode difficile)"]
+    ]
+
+regle_calcul = (
+    "Regles du jeu Calcul Mental :\n"
+    "- Vous devez resoudre un maximum d'operations en 30 secondes.\n"
+    "- Les operations peuvent etre des additions, soustractions, multiplications ou divisions.\n"
+    "- Chaque bonne reponse rapporte 1 point.\n"
+    "- Le chrono demarre des la premiere question.\n"
+    "- Le but est d'obtenir le meilleur score possible avant la fin du temps."
+)
+
+regle_devine = (
+    "Regles du jeu Devine le Nombre :\n"
+    "- Le but est de trouver le nombre choisi aleatoirement par l'ordinateur.\n"
+    "- Vous choisissez un niveau de difficulte :\n"
+    "    * Facile : nombre entre 1 et 10\n"
+    "    * Moyen : nombre entre 1 et 100\n"
+    "    * Difficile : nombre entre 1 et 500\n"
+    "-A chaque tentative, l'ordinateur indique si le nombre est plus grand ou plus petit.\n"
+    "- Vous gagnez lorsque vous trouvez le bon nombre."
+)
+
+regle_pendu = (
+    "Trouvez le mot cache en proposant des lettres. "
+    "Chaque erreur complete le dessin du pendu. "
+    "Vous avez droit Ã 6 erreurs. "
+    "Trouvez toutes les lettres avant la fin pour gagner."
+)
 
 
-def sauvegarder(nom_fichier, dictionnaire): # fonction pour sauvegarder le fichier json
+def afficher_regle():
+    print(regle_calcul)
+    print(regle_devine)
+    print(regle_pendu)
+    
+    
+def sauvegarder(nom_fichier, dictionnaire):
     with open(nom_fichier, "w", encoding="utf-8") as f:
         json.dump(dictionnaire, f, indent=4)
         
  
-def charger_profil(nom_fichier): # fonction pour charger le projil du joueur depuis le fichier json
+def charger_profil(nom_fichier):
     with open(nom_fichier, "r", encoding="utf-8") as f:
         return json.load(f)
     
-def voir_profil_joueur(): # fonction pour voir le profil du joueur venant du fichier json
+def voir_profil_joueur():
     nom_joueur = input("Saisi le nom du joueur dont tu veux voir le profil : ")
     profil_joueur = charger_profil(f"{nom_joueur}.json")
     print(profil_joueur)
     
-    
-def creer_profil(): # fonction pour creer le profil du joueur qui permets de creer le fichier json avec le nom du joueur
+
+def creer_profil():
     prenom = input("Entrez votre prénom : ")
-    with open(f"{prenom}.json", "x") as f:
-        f.close()
+    with open(f"{prenom}.json", "x"):
+        pass
     sauvegarder(f"{prenom}.json", profil)
     temp = charger_profil(f"{prenom}.json")
     temp["prenom"] = prenom
+    temp["date_creation"] = datetime.now().strftime("%d/%m/%Y %H:%M")
     sauvegarder(f"{prenom}.json", temp)
+
     
-
-
 def verifier_succes():
     nom = input ("Quel est ton nom ? : ")
     profil_informations = charger_profil(nom)
+    print(f"Voici tous tes succès : {profil_informations["succes"]}")
     
 
-def calculer_points(nom_fichier): 
-    profil = charger_profil(nom_fichier)
-    print(f"Voici tous tes succès : {profil["succes"]}")
+def succes_jeu(nom_fichier):
+    profil_information = charger_profil(nom_fichier)
+    succes_1 = "apprentit puant (10 parties joués)"
+    succes_2 = "puant ultime (50 parties joués)"
+    succes_3 = "tryhardeur (atteindre les 1000 points)"
+    if profil_information["parties"] >= 10:
+        profil_information["succes"].append(succes_1)
+    if profil_information["parties"] >= 50:
+        profil_information["succes"].append(succes_2)
+    if profil_information['score_total'] >= 1000:
+        profil_information["succes"].append(succes_3)
+    sauvegarder(nom_fichier, profil_information)
+
     
-    
-theme_pendu = [
-[
-    "chien", "chat", "lion", "tigre", "elephant", "girafe", "singe", "lapin",
-    "cheval", "loup", "ours", "renard", "requin", "dauphin", "serpent", "aigle",
-    "hibou", "panda", "koala", "kangourou", "zebre", "rhinoceros", "hippopotame",
-    "crocodile", "alligator", "panthere", "leopard", "guepard", "baleine",
-    "phoque", "otarie", "tortue", "pingouin", "manchot", "corbeau", "perroquet",
-    "moineau", "souris", "rat", "hamster", "ecureuil", "herisson", "blaireau",
-    "sanglier", "cerf", "biche", "chamois", "bouquet"
-],
 
-
-[
-    "pizza", "hamburger", "fromage", "pates", "riz", "poulet", "boeuf", "porc",
-    "poisson", "chocolat", "gateau", "pomme", "banane", "fraise", "orange",
-    "raisin", "poire", "ananas", "mangue", "pasteque", "salade", "tomate",
-    "carotte", "brocoli", "courgette", "aubergine", "oignon", "ail", "pain",
-    "baguette", "croissant", "sandwich", "soupe", "glace", "yaourt", "beurre",
-    "creme", "lait", "oeuf", "omelette", "lasagne", "tacos", "kebab", "sushi",
-    "ramen", "couscous", "paella", "quiche", "gratin"
-],
-
-
-[
-    "france", "espagne", "italie", "allemagne", "portugal", "belgique",
-    "suisse", "autriche", "pologne", "grece", "suede", "norvege", "finlande",
-    "danemark", "irlande", "royaumeuni", "islande", "canada", "etatsunis",
-    "mexique", "bresil", "argentine", "chili", "perou", "colombie", "venezuela",
-    "japon", "chine", "coree", "vietnam", "thailande", "inde", "pakistan",
-    "nepal", "indonesie", "australie", "nouvellezelande", "egypte", "maroc",
-    "algerie", "tunisie", "senegal", "nigeria", "kenya", "ethiopie",
-    "afriquedusud", "turquie", "israel", "iran"
-],
-
-
-[
-    "ordinateur", "clavier", "souris", "ecran", "serveur", "reseau", "internet",
-    "logiciel", "programme", "algorithme", "donnees", "base", "python", "java",
-    "javascript", "html", "css", "sql", "linux", "windows", "macos", "processeur",
-    "memoire", "disque", "stockage", "cloud", "securite", "parefeu", "cryptage",
-    "hash", "motdepasse", "authentification", "api", "backend", "frontend",
-    "framework", "bibliotheque", "debug", "compilation", "virtualisation",
-    "conteneur", "docker", "git", "github", "commit", "branche", "merge",
-    "bug", "latence"
-],
-
-
-[
-    "medecin", "enseignant", "ingenieur", "developpeur", "pompier", "policier",
-    "avocat", "boulanger", "cuisinier", "journaliste", "architecte", "infirmier",
-    "chirurgien", "dentiste", "pharmacien", "psychologue", "psychiatre",
-    "electricien", "plombier", "menuisier", "charpentier", "maçon", "peintre",
-    "decorateur", "designer", "graphiste", "photographe", "videaste",
-    "realisateur", "acteur", "musicien", "compositeur", "chanteur", "professeur",
-    "chercheur", "scientifique", "technicien", "administrateur", "analyste",
-    "consultant", "comptable", "auditeur", "economiste", "banquier",
-    "assureur", "courtier", "vendeur", "commercial", "manager"
-],
-
-
-[
-    "table", "chaise", "lampe", "telephone", "sac", "stylo", "cahier", "montre",
-    "cle", "porte", "bouteille", "lunettes", "ordinateur", "telecommande",
-    "television", "radio", "horloge", "miroir", "canape", "fauteuil", "lit",
-    "oreiller", "couverture", "tapis", "rideau", "fenetre", "etagere", "armoire",
-    "tiroir", "placard", "four", "microonde", "refrigerateur", "congelateur",
-    "mixeur", "grillepain", "bouilloire", "aspirateur", "balai", "serpillere",
-    "seau", "marteau", "tournevis", "perceuse", "scie", "clou", "vis",
-    "chargeur", "batterie"
-]
-]
 theme_pendu = [
 [
     "chien", "chat", "lion", "tigre", "elephant", "girafe", "singe", "lapin",
@@ -275,6 +263,8 @@ def jeu_pendu():
         index = int(input(menu))
         theme = theme_pendu[index - 1]
         mot_secret = random.choice(theme)
+        succes_1 = "gg (premiere victoire)"
+        succes_2 = "encore en vie ! (gagner au pendue)"
         lettre_trouve = []
         erreur = 0
         erreur_max = 6
@@ -294,9 +284,14 @@ def jeu_pendu():
                 erreur += 1
             if "_" not in afficher_mot(mot_secret, lettre_trouve):
                 print("tu as gagné !")
+                if succes_1 not in compte["succes"]:
+                    compte["succes"].append(succes_1)
+                if succes_2 not in compte["succes"]:
+                    compte["succes"].append(succes_2)                    
                 compte["parties"] += 1
                 compte["score_total"] += 100
                 sauvegarder(f"{prenom}.json", compte)
+                succes_jeu(f"{prenom}.json")
                 break
         else:
             print(pendu[erreur])
@@ -304,6 +299,7 @@ def jeu_pendu():
             compte["parties"] += 1
             compte["score_total"] += 20
             sauvegarder(f"{prenom}.json", compte)
+            succes_jeu(f"{prenom}.json")
     except ValueError:
         print("Erreur : vous devez entrer un nombre entier.")
 
@@ -319,9 +315,9 @@ def deviner_nombre_menu():
         difficulte_deviner_nombre = int(input(menu))
         if difficulte_deviner_nombre == 1:
             deviner_nombre(50)
-        elif difficulte_deviner_nombre == 2:
+        if difficulte_deviner_nombre == 2:
             deviner_nombre(100)
-        elif difficulte_deviner_nombre == 3:
+        if difficulte_deviner_nombre == 3:
             deviner_nombre(500)
     except ValueError:
         print("Erreur : vous devez entrer un nombre entier.")
@@ -329,6 +325,10 @@ def deviner_nombre_menu():
 def deviner_nombre(max):
     prenom = input("Quel est votre prénom ? : ")
     compte = charger_profil(f"{prenom}.json")
+    succes_1 = "petit veinard (trouver le chiffre en moins de 5 essaies en mode facile)"
+    succes_2 = "veinard (trouver le chiffre en moins de 8 essaies en mode moyen)"
+    succes_3 = "veinard ultime (trouver le chiffre en moins de 15 essaies en mode difficile)"
+    succes_4 = "gg (premiere victoire)"
     compteur = 0
     chiffres = list(range(1, max+1))
     nombre_a_deviner = random.choice(chiffres)
@@ -344,39 +344,40 @@ def deviner_nombre(max):
     if compteur <= 5 and difficulte_deviner_nombre == 1:
         compte["parties"] += 1
         compte["score_total"] += 50
-        sauvegarder(f"{prenom}.json", compte)
+        if succes_1 not in compte["succes"]:
+            compte["succes"].append(succes_1)
     if compteur <= 10 and difficulte_deviner_nombre == 1:
         compte["parties"] += 1
         compte["score_total"] += 25
-        sauvegarder(f"{prenom}.json", compte)
     if compteur > 10 and difficulte_deviner_nombre == 1:
         compte["parties"] += 1
         compte["score_total"] += 10
-        sauvegarder(f"{prenom}.json", compte)
     if compteur <= 8 and difficulte_deviner_nombre == 2:
         compte["parties"] += 1
+        if succes_2 not in compte["succes"]:
+            compte["succes"].append(succes_2)
         compte["score_total"] += 100
-        sauvegarder(f"{prenom}.json", compte)
     if compteur <= 15 and difficulte_deviner_nombre == 2:
         compte["parties"] += 1
         compte["score_total"] += 50
-        sauvegarder(f"{prenom}.json", compte)
     if compteur > 15 and difficulte_deviner_nombre == 2:
         compte["parties"] += 1
         compte["score_total"] += 20
-        sauvegarder(f"{prenom}.json", compte)
     if compteur <= 15 and difficulte_deviner_nombre == 3:
         compte["parties"] += 1
         compte["score_total"] += 500
-        sauvegarder(f"{prenom}.json", compte)
+        if succes_3 not in compte["succes"]:
+            compte["succes"].append(succes_3)
     if compteur <= 25 and difficulte_deviner_nombre == 3:
         compte["parties"] += 1
         compte["score_total"] += 250
-        sauvegarder(f"{prenom}.json", compte)
     if compteur > 25 and difficulte_deviner_nombre == 3:
         compte["parties"] += 1
         compte["score_total"] += 100
-        sauvegarder(f"{prenom}.json", compte)
+    elif succes_4 not in compte["succes"]:
+        compte["succes"].append(succes_4)
+    sauvegarder(f"{prenom}.json", compte)
+    succes_jeu(f"{prenom}.json")
 
 
 def calcul_mental_menu():
@@ -439,14 +440,15 @@ def calcul_mental(max_valeur):
     score = 0
     questions = 5
     temps_limite = 30
-
+    succes_1 = "maitre du calcul débutant (mode facile)"
+    succes_2 = "maitre du calcul vétéran (mode moyen)"
+    succes_3 = "maitre du calcul ultime (mode difficile)"
+    succes_4 = "gg (premiere victoire)"
     print("\nLe calcul mental a commencé ! (30s par question)\n")
-
     for i in range(questions):
         operation = random.choice(["+", "-", "*"])
         nombre_1 = random.randint(1, max_valeur)
         nombre_2 = random.randint(1, max_valeur)
-
         if operation == "-":
             if nombre_2 > nombre_1:
                 nombre_1, nombre_2 = nombre_2, nombre_1
@@ -455,58 +457,55 @@ def calcul_mental(max_valeur):
             resultat = nombre_1 + nombre_2
         else:
             resultat = nombre_1 * nombre_2
-
         prompt = f"question {i+1} : {nombre_1} {operation} {nombre_2} = "
         reponse = input_avec_timeout(prompt, temps_limite)
-
         if reponse is None:
             print("temps écoulé")
             print(f"faux, la bonne réponse était {resultat} !\n")
             continue
-
         if reponse.isdigit() and int(reponse) == resultat:
             print("juste !\n")
             score += 1
         else:
             print(f"faux, la bonne réponse était {resultat} !\n")
-
     print(f"Ton score final est de : {score}/{questions} !")
     if score == 0 and difficulte_calcul_mental == 1:
         compte["parties"] += 1
         compte["score_total"] += 0
-        sauvegarder(f"{prenom}.json", compte)
     if score <= 5 and difficulte_calcul_mental == 1:
         compte["parties"] += 1
         compte["score_total"] += 25
-        sauvegarder(f"{prenom}.json", compte)
     if score == 10 and difficulte_calcul_mental == 1:
         compte["parties"] += 1
         compte["score_total"] += 50
-        sauvegarder(f"{prenom}.json", compte)
+        if succes_1 not in compte["succes"]:
+            compte["succes"].append(succes_1)
     if score <= 5 and difficulte_calcul_mental == 2:
         compte["parties"] += 1
         compte["score_total"] += 20
-        sauvegarder(f"{prenom}.json", compte)
     if score <= 14 and difficulte_calcul_mental == 2:
         compte["parties"] += 1
         compte["score_total"] += 50
-        sauvegarder(f"{prenom}.json", compte)
     if score == 20 and difficulte_calcul_mental == 2:
         compte["parties"] += 1
         compte["score_total"] += 100
-        sauvegarder(f"{prenom}.json", compte)
+        if succes_2 not in compte["succes"]:
+            compte["succes"].append(succes_2)
     if score <= 15 and difficulte_calcul_mental == 3:
         compte["parties"] += 1
         compte["score_total"] += 50
-        sauvegarder(f"{prenom}.json", compte)
     if score <= 35 and difficulte_calcul_mental == 3:
         compte["parties"] += 1
         compte["score_total"] += 400
-        sauvegarder(f"{prenom}.json", compte)
     if score == 50 and difficulte_calcul_mental == 3:
         compte["parties"] += 1
         compte["score_total"] += 750
-        sauvegarder(f"{prenom}.json", compte)
+        if succes_3 not in compte["succes"]:
+            compte["succes"].append(succes_3)
+    elif succes_4 not in compte["succes"]:
+        compte["succes"].append(succes_4)
+    sauvegarder(f"{prenom}.json", compte)
+    succes_jeu(f"{prenom}.json")
 
 
 def main():
@@ -518,8 +517,10 @@ def menu():
     menu = """
     1 - creer un profil
     2 - voir profil d'un joueur
-    3 - vérifier succès
-    4 - jouer
+    3 - voir la liste des succès
+    4 - règle des jeux
+    5 - jouer
+    6 - Quitter
     """
     try:
         while True:
@@ -528,9 +529,11 @@ def menu():
                 creer_profil()
             elif temp == 2:
                 voir_profil_joueur()
-            elif temp==  3:
-                verifier_succes()
+            elif temp == 3:
+                print(f"Voici la liste des succès : {liste_succes}")
             elif temp == 4:
+                afficher_regle()
+            elif temp == 5:
                 menu_jeu = """
                 1 - jeu du pendu
                 2- jeu de devinette du chiffre
@@ -552,13 +555,7 @@ def menu():
                     continue
                 else:
                     break
+            elif temp == 6:
+                break
     except ValueError:
         print("Erreur : vous devez entrer un nombre entier.")
-
-
-menu()
-
-
-
-
-        
