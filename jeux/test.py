@@ -505,7 +505,7 @@ def menu():
         print("Erreur : vous devez entrer un nombre entier.")
 
 
-
+menu()
 
 
 
