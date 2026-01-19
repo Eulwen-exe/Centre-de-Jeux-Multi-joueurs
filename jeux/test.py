@@ -40,12 +40,7 @@ def verifier_succes():
     nom = input ("Quel est ton nom ? : ")
     profil_informations = charger_profil(nom)
     print(f"Voici tous tes succès : {profil["succes"]}")
-    
-
-def calculer_points(nom_fichier):
-    profil = charger_profil(nom_fichier)
-    print(f"Voici tous tes succès : {profil["succes"]}")
-    
+       
     
 theme_pendu = [
 [
@@ -516,21 +511,26 @@ def main():
         
 def menu():
     menu = """
-    1 - creer un profil
-    2 - voir profil d'un joueur
-    3 - vérifier succès
-    4 - jouer
+    1 - option lié aux profils
+    2 - jouer
     """
     try:
         while True:
             temp = int(input(menu))
             if temp == 1:
-                creer_profil()
+                menu_option_profil = """
+                1 - créer un profil
+                2- voir le profil d'un joueur
+                3 - vérifier ses succès
+                """
+                option_profil = int(input(menu))
+                if option_profil == 1:
+                    creer_profil()
+                elif option_profil == 2:
+                    voir_profil_joueur()
+                elif option_profil == 3:
+                    verifier_succes()
             elif temp == 2:
-                voir_profil_joueur()
-            elif temp==  3:
-                verifier_succes()
-            elif temp == 4:
                 menu_jeu = """
                 1 - jeu du pendu
                 2- jeu de devinette du chiffre
