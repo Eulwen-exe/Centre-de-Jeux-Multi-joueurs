@@ -4,13 +4,61 @@ import time
 import msvcrt  # windows only
 from datetime import datetime
 
+
 profil = {"prenom": "",
           "date_creation":"",
           "parties": 0,
           "score_total": 0,
           "succes": []}
 
+liste_succes = [
+    ["gg (premiere victoire)"],
+    ["apprentit puant (10 parties joués)"], 
+    ["puant ultime (50 parties joués)"],
+    ["tryhardeur (atteindre les 1000 points)"],
+    ["encore en vie ! (gagner au pendue)"],
+    ["maitre du calcul débutant (mode facile)"],
+    ["maitre du calcul vétéran (mode moyen)"],
+    ["maitre du calcul ultime (mode difficile)"],
+    ["petit veinard (trouver le chiffre en moins de 5 essaies en mode facile)"],
+    ["veinard (trouver le chiffre en moins de 8 essaies en mode moyen)"],
+    ["veinard ultime (trouver le chiffre en moins de 15 essaies en mode difficile)"]
+    ]
 
+regle_calcul = (
+    "Regles du jeu Calcul Mental :\n"
+    "- Vous devez resoudre un maximum d'operations en 30 secondes.\n"
+    "- Les operations peuvent etre des additions, soustractions, multiplications ou divisions.\n"
+    "- Chaque bonne reponse rapporte 1 point.\n"
+    "- Le chrono demarre des la premiere question.\n"
+    "- Le but est d'obtenir le meilleur score possible avant la fin du temps."
+)
+
+regle_devine = (
+    "Regles du jeu Devine le Nombre :\n"
+    "- Le but est de trouver le nombre choisi aleatoirement par l'ordinateur.\n"
+    "- Vous choisissez un niveau de difficulte :\n"
+    "    * Facile : nombre entre 1 et 10\n"
+    "    * Moyen : nombre entre 1 et 100\n"
+    "    * Difficile : nombre entre 1 et 500\n"
+    "-A chaque tentative, l'ordinateur indique si le nombre est plus grand ou plus petit.\n"
+    "- Vous gagnez lorsque vous trouvez le bon nombre."
+)
+
+regle_pendu = (
+    "Trouvez le mot cache en proposant des lettres. "
+    "Chaque erreur complete le dessin du pendu. "
+    "Vous avez droit Ã 6 erreurs. "
+    "Trouvez toutes les lettres avant la fin pour gagner."
+)
+
+
+def afficher_regle():
+    print(regle_calcul)
+    print(regle_devine)
+    print(regle_pendu)
+    
+    
 def sauvegarder(nom_fichier, dictionnaire):
     with open(nom_fichier, "w", encoding="utf-8") as f:
         json.dump(dictionnaire, f, indent=4)
@@ -25,16 +73,17 @@ def voir_profil_joueur():
     profil_joueur = charger_profil(f"{nom_joueur}.json")
     print(profil_joueur)
     
-    
+
 def creer_profil():
     prenom = input("Entrez votre prénom : ")
-    with open(f"{prenom}.json", "x") as f:
-        f.close()
+    with open(f"{prenom}.json", "x"):
+        pass
     sauvegarder(f"{prenom}.json", profil)
     temp = charger_profil(f"{prenom}.json")
     temp["prenom"] = prenom
     temp["date_creation"] = datetime.now().strftime("%d/%m/%Y %H:%M")
-    sauvegarder(f"{prenom}.json", profil)
+    sauvegarder(f"{prenom}.json", temp)
+
     
 def verifier_succes():
     nom = input ("Quel est ton nom ? : ")
@@ -55,14 +104,6 @@ def succes_jeu(nom_fichier):
         profil_information["succes"].append(succes_3)
     sauvegarder(nom_fichier, profil_information)
 
-
-def test(nom_fichier):
-    temp = charger_profil(nom_fichier)
-    succes = "fffff"
-    if succes not in temp["succes"]:
-        temp["succes"].append(succes)
-    sauvegarder(nom_fichier, temp)
-    
     
 
 theme_pendu = [
@@ -476,7 +517,10 @@ def menu():
     menu = """
     1 - creer un profil
     2 - voir profil d'un joueur
-    3 - jouer
+    3 - voir la liste des succès
+    4 - règle des jeux
+    5 - jouer
+    6 - Quitter
     """
     try:
         while True:
@@ -486,6 +530,10 @@ def menu():
             elif temp == 2:
                 voir_profil_joueur()
             elif temp == 3:
+                print(f"Voici la liste des succès : {liste_succes}")
+            elif temp == 4:
+                afficher_regle()
+            elif temp == 5:
                 menu_jeu = """
                 1 - jeu du pendu
                 2- jeu de devinette du chiffre
@@ -507,5 +555,7 @@ def menu():
                     continue
                 else:
                     break
+            elif temp == 6:
+                break
     except ValueError:
         print("Erreur : vous devez entrer un nombre entier.")
