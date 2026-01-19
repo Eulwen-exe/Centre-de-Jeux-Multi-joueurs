@@ -20,6 +20,11 @@ def charger_profil(nom_fichier):
     with open(nom_fichier, "r", encoding="utf-8") as f:
         return json.load(f)
     
+def voir_profil_joueur():
+    nom_joueur = input("Saisi le nom du joueur dont tu veux voir le profil : ")
+    profil_joueur = charger_profil(f"{nom_joueur}.json")
+    print(profil_joueur)
+    
     
 def creer_profil():
     prenom = input("Entrez votre prénom : ")
@@ -309,13 +314,13 @@ def deviner_nombre_menu():
     3 - difficulté difficile (1 à 500)
     """
     try:
-        global difficulte
-        difficulte = int(input(menu))
-        if difficulte == 1:
+        global difficulte_deviner_nombre
+        difficulte_deviner_nombre = int(input(menu))
+        if difficulte_deviner_nombre == 1:
             deviner_nombre(50)
-        elif difficulte == 2:
+        elif difficulte_deviner_nombre == 2:
             deviner_nombre(100)
-        elif difficulte == 3:
+        elif difficulte_deviner_nombre == 3:
             deviner_nombre(500)
     except ValueError:
         print("Erreur : vous devez entrer un nombre entier.")
@@ -335,39 +340,39 @@ def deviner_nombre(max):
             print("Plus petit !")
         nombre_utilisateur = int(input(f"Saisi un nombre entre 1 et {max} : "))
     print("Gagné !")
-    if compteur <= 5 and difficulte == 1:
+    if compteur <= 5 and difficulte_deviner_nombre == 1:
         compte["parties"] += 1
         compte["score_total"] += 50
         sauvegarder(f"{prenom}.json", compte)
-    if compteur <= 10 and difficulte == 1:
+    if compteur <= 10 and difficulte_deviner_nombre == 1:
         compte["parties"] += 1
         compte["score_total"] += 25
         sauvegarder(f"{prenom}.json", compte)
-    if compteur > 10 and difficulte == 1:
+    if compteur > 10 and difficulte_deviner_nombre == 1:
         compte["parties"] += 1
         compte["score_total"] += 10
         sauvegarder(f"{prenom}.json", compte)
-    if compteur <= 8 and difficulte == 2:
+    if compteur <= 8 and difficulte_deviner_nombre == 2:
         compte["parties"] += 1
         compte["score_total"] += 100
         sauvegarder(f"{prenom}.json", compte)
-    if compteur <= 15 and difficulte == 2:
+    if compteur <= 15 and difficulte_deviner_nombre == 2:
         compte["parties"] += 1
         compte["score_total"] += 50
         sauvegarder(f"{prenom}.json", compte)
-    if compteur > 15 and difficulte == 2:
+    if compteur > 15 and difficulte_deviner_nombre == 2:
         compte["parties"] += 1
         compte["score_total"] += 20
         sauvegarder(f"{prenom}.json", compte)
-    if compteur <= 15 and difficulte == 3:
+    if compteur <= 15 and difficulte_deviner_nombre == 3:
         compte["parties"] += 1
         compte["score_total"] += 500
         sauvegarder(f"{prenom}.json", compte)
-    if compteur <= 25 and difficulte == 3:
+    if compteur <= 25 and difficulte_deviner_nombre == 3:
         compte["parties"] += 1
         compte["score_total"] += 250
         sauvegarder(f"{prenom}.json", compte)
-    if compteur > 25 and difficulte == 3:
+    if compteur > 25 and difficulte_deviner_nombre == 3:
         compte["parties"] += 1
         compte["score_total"] += 100
         sauvegarder(f"{prenom}.json", compte)
@@ -381,12 +386,13 @@ choisis la difficulté :
 3 - difficile (1 à 50)
 """
     try:
-        difficulte = int(input(menu))
-        if difficulte == 1:
+        global difficulte_calcul_mental
+        difficulte_calcul_mental = int(input(menu))
+        if difficulte_calcul_mental == 1:
             return 10
-        elif difficulte == 2:
+        elif difficulte_calcul_mental == 2:
             return 20
-        elif difficulte == 3:
+        elif difficulte_calcul_mental == 3:
             return 50
         else:
             print("choix invalide")
@@ -427,6 +433,8 @@ def input_avec_timeout(prompt, limite=30):
 
 
 def calcul_mental(max_valeur):
+    prenom = input("Quel est votre prénom ? : ")
+    compte = charger_profil(f"{prenom}.json")
     score = 0
     questions = 5
     temps_limite = 30
@@ -462,6 +470,42 @@ def calcul_mental(max_valeur):
             print(f"faux, la bonne réponse était {resultat} !\n")
 
     print(f"Ton score final est de : {score}/{questions} !")
+    if score == 0 and difficulte_calcul_mental == 1:
+        compte["parties"] += 1
+        compte["score_total"] += 0
+        sauvegarder(f"{prenom}.json", compte)
+    if score <= 5 and difficulte_calcul_mental == 1:
+        compte["parties"] += 1
+        compte["score_total"] += 25
+        sauvegarder(f"{prenom}.json", compte)
+    if score == 10 and difficulte_calcul_mental == 1:
+        compte["parties"] += 1
+        compte["score_total"] += 50
+        sauvegarder(f"{prenom}.json", compte)
+    if score <= 5 and difficulte_calcul_mental == 2:
+        compte["parties"] += 1
+        compte["score_total"] += 20
+        sauvegarder(f"{prenom}.json", compte)
+    if score <= 14 and difficulte_calcul_mental == 2:
+        compte["parties"] += 1
+        compte["score_total"] += 50
+        sauvegarder(f"{prenom}.json", compte)
+    if score == 20 and difficulte_calcul_mental == 2:
+        compte["parties"] += 1
+        compte["score_total"] += 100
+        sauvegarder(f"{prenom}.json", compte)
+    if score <= 15 and difficulte_calcul_mental == 3:
+        compte["parties"] += 1
+        compte["score_total"] += 50
+        sauvegarder(f"{prenom}.json", compte)
+    if score <= 35 and difficulte_calcul_mental == 3:
+        compte["parties"] += 1
+        compte["score_total"] += 400
+        sauvegarder(f"{prenom}.json", compte)
+    if score == 50 and difficulte_calcul_mental == 3:
+        compte["parties"] += 1
+        compte["score_total"] += 750
+        sauvegarder(f"{prenom}.json", compte)
 
 
 def main():
@@ -472,7 +516,8 @@ def main():
 def menu():
     menu = """
     1 - creer un profil
-    2 - jouer
+    2 - voir profil d'un joueur
+    3 - jouer
     """
     try:
         while True:
@@ -480,6 +525,8 @@ def menu():
             if temp == 1:
                 creer_profil()
             elif temp == 2:
+                voir_profil_joueur()
+            elif temp == 3:
                 menu_jeu = """
                 1 - jeu du pendu
                 2- jeu de devinette du chiffre
