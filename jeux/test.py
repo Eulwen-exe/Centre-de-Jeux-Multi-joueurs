@@ -96,12 +96,15 @@ def succes_jeu(nom_fichier):
     succes_1 = "apprentit puant (10 parties joués)"
     succes_2 = "puant ultime (50 parties joués)"
     succes_3 = "tryhardeur (atteindre les 1000 points)"
-    if profil_information["parties"] >= 10:
-        profil_information["succes"].append(succes_1)
-    if profil_information["parties"] >= 50:
-        profil_information["succes"].append(succes_2)
-    if profil_information['score_total'] >= 1000:
-        profil_information["succes"].append(succes_3)
+    if succes_1 not in profil_information["succes"]:
+        if profil_information["parties"] >= 10:
+            profil_information["succes"].append(succes_1)
+    if succes_2 not in profil_information["succes"]:
+        if profil_information["parties"] >= 50:
+            profil_information["succes"].append(succes_2)
+    if succes_3 not in profil_information["succes"]:
+        if profil_information['score_total'] >= 1000:
+            profil_information["succes"].append(succes_3)
     sauvegarder(nom_fichier, profil_information)
 
     
