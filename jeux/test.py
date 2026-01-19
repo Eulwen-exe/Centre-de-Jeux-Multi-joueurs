@@ -36,9 +36,10 @@ def creer_profil(): # fonction pour creer le profil du joueur qui permets de cre
     sauvegarder(f"{prenom}.json", temp)
     
 
-def verifier_succes(nom_fichier): #fonction pour voir les succès gagner par le joueur
-    profil = charger_profil(nom_fichier)
-    print(f"Voici tous tes succès : {profil["succes"]}")
+
+def verifier_succes():
+    nom = input ("Quel est ton nom ? : ")
+    profil_informations = charger_profil(nom)
     
 
 def calculer_points(nom_fichier): 
@@ -517,7 +518,8 @@ def menu():
     menu = """
     1 - creer un profil
     2 - voir profil d'un joueur
-    3 - jouer
+    3 - vérifier succès
+    4 - jouer
     """
     try:
         while True:
@@ -526,7 +528,9 @@ def menu():
                 creer_profil()
             elif temp == 2:
                 voir_profil_joueur()
-            elif temp == 3:
+            elif temp==  3:
+                verifier_succes()
+            elif temp == 4:
                 menu_jeu = """
                 1 - jeu du pendu
                 2- jeu de devinette du chiffre
