@@ -1,7 +1,7 @@
 import random
 import json
 import time
-import msvcrt  # windows only
+import msvcrt  # bibliothèque pour le compteur seulement sur windows
 
 
 profil = {"prenom": "",
@@ -11,22 +11,22 @@ profil = {"prenom": "",
           "succes": ""}
 
 
-def sauvegarder(nom_fichier, dictionnaire):
+def sauvegarder(nom_fichier, dictionnaire): # fonction pour sauvegarder le fichier json
     with open(nom_fichier, "w", encoding="utf-8") as f:
         json.dump(dictionnaire, f, indent=4)
         
  
-def charger_profil(nom_fichier):
+def charger_profil(nom_fichier): # fonction pour charger le projil du joueur depuis le fichier json
     with open(nom_fichier, "r", encoding="utf-8") as f:
         return json.load(f)
     
-def voir_profil_joueur():
+def voir_profil_joueur(): # fonction pour voir le profil du joueur venant du fichier json
     nom_joueur = input("Saisi le nom du joueur dont tu veux voir le profil : ")
     profil_joueur = charger_profil(f"{nom_joueur}.json")
     print(profil_joueur)
     
     
-def creer_profil():
+def creer_profil(): # fonction pour creer le profil du joueur qui permets de creer le fichier json avec le nom du joueur
     prenom = input("Entrez votre prénom : ")
     with open(f"{prenom}.json", "x") as f:
         f.close()
@@ -36,12 +36,12 @@ def creer_profil():
     sauvegarder(f"{prenom}.json", temp)
     
 
-def verifier_succes(nom_fichier):
+def verifier_succes(nom_fichier): #fonction pour voir les succès gagner par le joueur
     profil = charger_profil(nom_fichier)
     print(f"Voici tous tes succès : {profil["succes"]}")
     
 
-def calculer_points(nom_fichier):
+def calculer_points(nom_fichier): 
     profil = charger_profil(nom_fichier)
     print(f"Voici tous tes succès : {profil["succes"]}")
     
