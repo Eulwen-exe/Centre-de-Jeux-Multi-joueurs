@@ -550,3 +550,12 @@ def menu():
                     break
     except ValueError:
         print("Erreur : vous devez entrer un nombre entier.")
+        print("Erreur : vous devez entrer un nombre entier.")
+
+
+menu()
+
+
+
+
+        
