@@ -25,3 +25,11 @@ regle_pendu = (
     "Vous avez droit Ã 6 erreurs.\n "
     "Trouvez toutes les lettres avant la fin pour gagner.\n"
 )
+
+def afficher_regle():
+    """
+    affiche les règles des trois jeux (calcul mental, deviner le nombre, pendu).
+    """
+    print(regle_calcul)
+    print(regle_devine)
+    print(regle_pendu)
