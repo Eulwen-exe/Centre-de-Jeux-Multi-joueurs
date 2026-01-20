@@ -46,10 +46,10 @@ regle_devine = (
 )
 
 regle_pendu = (
-    "Trouvez le mot cache en proposant des lettres. "
-    "Chaque erreur complete le dessin du pendu. "
-    "Vous avez droit Ã 6 erreurs. "
-    "Trouvez toutes les lettres avant la fin pour gagner."
+    "Trouvez le mot cache en proposant des lettres.\n "
+    "Chaque erreur complete le dessin du pendu.\n "
+    "Vous avez droit Ã 6 erreurs.\n "
+    "Trouvez toutes les lettres avant la fin pour gagner.\n"
 )
 
 
