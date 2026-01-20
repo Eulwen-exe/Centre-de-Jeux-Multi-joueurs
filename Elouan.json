@@ -1,14 +1,16 @@
 {
     "prenom": "Elouan",
     "date_creation": "19/01/2026 16:10",
-    "parties": 53,
-    "score_total": 1170,
+    "parties": 56,
+    "score_total": 1290,
     "succes": [
         "gg (premiere victoire)",
         "encore en vie ! (gagner au pendue)",
         "apprentit puant (10 parties jou\u00e9s)",
         "tryhardeur (atteindre les 1000 points)",
         "puant ultime (50 parties jou\u00e9s)",
-        "maitre du calcul d\u00e9butant (mode facile)"
+        "maitre du calcul d\u00e9butant (mode facile)",
+        "gros golem (Gagner avec la pierre)",
+        "ma\u00eetre du parchemin (Gagner avec le papier)"
     ]
 }
