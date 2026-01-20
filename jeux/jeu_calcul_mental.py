@@ -1,3 +1,5 @@
+from option_joueur import *
+from succes import *
 import random
 import time
 import msvcrt  # windows only
@@ -142,6 +144,9 @@ def calcul_mental(max_valeur):
     succes_jeu(f"{prenom}.json")
 
 def main():
+    """
+    lance le calcul mental : demande la difficulté puis démarre la partie.
+    """
     max_valeur = calcul_mental_menu()
     if max_valeur is not None:
         calcul_mental(max_valeur)
