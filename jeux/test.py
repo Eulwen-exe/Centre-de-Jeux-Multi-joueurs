@@ -22,7 +22,10 @@ liste_succes = [
     ["maitre du calcul ultime (mode difficile)"],
     ["petit veinard (trouver le chiffre en moins de 5 essaies en mode facile)"],
     ["veinard (trouver le chiffre en moins de 8 essaies en mode moyen)"],
-    ["veinard ultime (trouver le chiffre en moins de 15 essaies en mode difficile)"]
+    ["veinard ultime (trouver le chiffre en moins de 15 essaies en mode difficile)"],
+    ["gros golem (Gagner avec la pierre)"],
+    ["maître du parchemin (Gagner avec le papier)"],
+    ["bourreau affûté (Gagner avec le ciseau)"]
 ]
 
 regle_calcul = (
