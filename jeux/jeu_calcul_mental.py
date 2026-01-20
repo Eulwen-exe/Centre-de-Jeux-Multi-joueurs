@@ -3,6 +3,9 @@ import time
 import msvcrt  # windows only
 
 def calcul_mental_menu():
+    """
+    affiche le menu de difficulté du calcul mental et retourne la valeur max utilisée.
+    """
     menu = """
 choisis la difficulté :
 1 - facile (1 à 10)
@@ -27,7 +30,16 @@ choisis la difficulté :
 
 
 def input_avec_timeout(prompt, limite=30):
-    # saisie non bloquante + timeout
+    """
+    demande une saisie utilisateur avec un temps limite (windows only via msvcrt).
+
+    paramètres :
+        prompt (str) : texte affiché
+        limite (int) : temps limite en secondes
+
+    retourne :
+        str | None : réponse saisie ou None si temps écoulé
+    """
     debut = time.time()
     texte = ""
     while True:
@@ -35,16 +47,15 @@ def input_avec_timeout(prompt, limite=30):
         if restant <= 0:
             print(f"\r{prompt}{texte}   (0s) ")
             return None
-        # affiche le prompt + texte tapé + temps restant
         print(f"\r{prompt}{texte}   ({restant}s) ", end="", flush=True)
         if msvcrt.kbhit():
             c = msvcrt.getwch()
-            if c == "\r":  # entrée
+            if c == "\r":
                 print()
                 return texte
-            elif c == "\b":  # backspace
+            elif c == "\b":
                 texte = texte[:-1]
-            elif c in ("\x00", "\xe0"):  # touches spéciales (flèches, etc.)
+            elif c in ("\x00", "\xe0"):
                 _ = msvcrt.getwch()
             else:
                 texte += c
@@ -52,6 +63,12 @@ def input_avec_timeout(prompt, limite=30):
 
 
 def calcul_mental(max_valeur):
+    """
+    lance une partie de calcul mental (5 questions), puis met à jour score/parties/succès.
+
+    paramètre :
+        max_valeur (int) : valeur max utilisée pour générer les nombres
+    """
     prenom = input("Quel est votre prénom ? : ")
     compte = charger_profil(f"{prenom}.json")
     score = 0
@@ -123,7 +140,6 @@ def calcul_mental(max_valeur):
         compte["succes"].append(succes_4)
     sauvegarder(f"{prenom}.json", compte)
     succes_jeu(f"{prenom}.json")
-
 
 def main():
     max_valeur = calcul_mental_menu()
