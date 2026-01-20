@@ -319,6 +319,7 @@ pendu = [
     """
 ]
 
+pierre_papier_ciseau = ["pierre", "papier", "ciseau"]
 
 def afficher_mot(mot, lettres):
     """
@@ -619,6 +620,50 @@ def calcul_mental(max_valeur):
     succes_jeu(f"{prenom}.json")
 
 
+def jeu_pierre_papier_ciseau():
+    prenom = input("Quel est votre prénom ? : ")
+    compte = charger_profil(f"{prenom}.json")
+    succes_1 = "gros golem (Gagner avec la pierre)"
+    succes_2 = "maître du parchemin (Gagner avec le papier)"
+    succes_3 = "bourreau affûté (Gagner avec le ciseau)"
+    joueur = input("Choisi, pierre, papier ou ciseau ? : ")
+    ordinateur = random.choice(pierre_papier_ciseau)
+    if joueur == ordinateur:
+        print("égalité")
+    elif joueur == "pierre" and ordinateur == "ciseau":
+        print("tu as gagné !")
+        compte["parties"] += 1
+        compte["score_total"] += 50
+        if succes_1 not in compte["succes"]:
+            compte["succes"].append(succes_1)
+    elif joueur == "papier" and ordinateur == "pierre":
+        print("tu as gagné !")
+        compte["parties"] += 1
+        compte["score_total"] += 50
+        if succes_2 not in compte["succes"]:
+            compte["succes"].append(succes_2)
+    elif joueur == "ciseau" and ordinateur == "papier":
+        print("tu as gagné !")
+        compte["parties"] += 1
+        compte["score_total"] += 50
+        if succes_3 not in compte["succes"]:
+            compte["succes"].append(succes_3)
+    elif joueur == "pierre" and ordinateur == "papier":
+        print("tu as perdu !")
+        compte["parties"] += 1
+        compte["score_total"] += 20
+    elif joueur == "papier" and ordinateur == "ciseau":
+        print("tu as perdu !")
+        compte["parties"] += 1
+        compte["score_total"] += 20
+    elif joueur == "ciseau" and ordinateur == "pierre":
+        print("tu as perdu !")
+        compte["parties"] += 1
+        compte["score_total"] += 20
+    sauvegarder(f"{prenom}.json", compte)
+    succes_jeu(f"{prenom}.json")
+
+
 def main():
     """
     lance le calcul mental : demande la difficulté puis démarre la partie.
@@ -657,8 +702,9 @@ def menu():
             elif temp == 6:
                 menu_jeu = """
                 1 - jeu du pendu
-                2 - jeu de devinette du chiffre
+                2- jeu de devinette du chiffre
                 3 - jeu de calcul mental
+                4 - jeu du pierre papier ciseau
                 """
                 jeu = int(input(menu_jeu))
                 if jeu == 1:
@@ -667,16 +713,20 @@ def menu():
                     deviner_nombre_menu()
                 elif jeu == 3:
                     main()
+                elif jeu == 4:
+                    jeu_pierre_papier_ciseau()
                 menu_fin = """
                 1 - continuer de jouer
-                2 - arreter
+                2- arreter
                 """
                 continuer_jeu = int(input(menu_fin))
                 if continuer_jeu == 1:
                     continue
                 else:
+                    print("Merci d'avoir joué !")
                     break
             elif temp == 7:
+                print("Merci d'avoir joué !")
                 break
     except ValueError:
         print("Erreur : vous devez entrer un nombre entier.")
