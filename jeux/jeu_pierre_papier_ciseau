@@ -1,0 +1,60 @@
+import random 
+
+pierre_papier_ciseau = ["pierre", "papier", "ciseau"]
+
+def jeu_pierre_papier_ciseau():
+    """
+    lance une partie de pierre / papier / ciseau contre l'ordinateur.
+
+    fonctionnement :
+        - demande le prénom du joueur puis charge son profil (<prenom>.json)
+        - demande le choix du joueur : "pierre", "papier" ou "ciseau"
+        - l'ordinateur choisit aléatoirement
+        - compare les choix et affiche victoire / défaite / égalité
+        - met à jour :
+            - parties (+1)
+            - score_total (+50 si victoire, +20 si défaite, +0 si égalité)
+            - succès selon le coup gagnant (pierre/papier/ciseau)
+        - sauvegarde le profil et met à jour les succès globaux via succes_jeu()
+    """
+    prenom = input("Quel est votre prénom ? : ")
+    compte = charger_profil(f"{prenom}.json")
+    succes_1 = "gros golem (Gagner avec la pierre)"
+    succes_2 = "maître du parchemin (Gagner avec le papier)"
+    succes_3 = "bourreau affûté (Gagner avec le ciseau)"
+    joueur = input("Choisi, pierre, papier ou ciseau ? : ")
+    ordinateur = random.choice(pierre_papier_ciseau)
+    if joueur == ordinateur:
+        print("égalité")
+    elif joueur == "pierre" and ordinateur == "ciseau":
+        print("tu as gagné !")
+        compte["parties"] += 1
+        compte["score_total"] += 50
+        if succes_1 not in compte["succes"]:
+            compte["succes"].append(succes_1)
+    elif joueur == "papier" and ordinateur == "pierre":
+        print("tu as gagné !")
+        compte["parties"] += 1
+        compte["score_total"] += 50
+        if succes_2 not in compte["succes"]:
+            compte["succes"].append(succes_2)
+    elif joueur == "ciseau" and ordinateur == "papier":
+        print("tu as gagné !")
+        compte["parties"] += 1
+        compte["score_total"] += 50
+        if succes_3 not in compte["succes"]:
+            compte["succes"].append(succes_3)
+    elif joueur == "pierre" and ordinateur == "papier":
+        print("tu as perdu !")
+        compte["parties"] += 1
+        compte["score_total"] += 20
+    elif joueur == "papier" and ordinateur == "ciseau":
+        print("tu as perdu !")
+        compte["parties"] += 1
+        compte["score_total"] += 20
+    elif joueur == "ciseau" and ordinateur == "pierre":
+        print("tu as perdu !")
+        compte["parties"] += 1
+        compte["score_total"] += 20
+    sauvegarder(f"{prenom}.json", compte)
+    succes_jeu(f"{prenom}.json")
