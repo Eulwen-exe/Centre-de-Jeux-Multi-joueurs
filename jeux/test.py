@@ -3,7 +3,7 @@ import json
 import time
 import msvcrt  # windows only
 from datetime import datetime
-
+import os
 
 profil = {"prenom": "",
           "date_creation":"",
@@ -67,6 +67,7 @@ def sauvegarder(nom_fichier, dictionnaire):
 def charger_profil(nom_fichier):
     with open(nom_fichier, "r", encoding="utf-8") as f:
         return json.load(f)
+ 
     
 def voir_profil_joueur():
     nom_joueur = input("Saisi le nom du joueur dont tu veux voir le profil : ")
@@ -107,8 +108,24 @@ def succes_jeu(nom_fichier):
             profil_information["succes"].append(succes_3)
     sauvegarder(nom_fichier, profil_information)
 
-    
 
+def recupere_info_joueur():
+    profils = []
+    fichiers = os.listdir()
+    for fichier in fichiers:
+        if fichier.endswith(".json"):
+            with open(fichier, "r", encoding="utf-8") as f:
+                profil = json.load(f)
+                profils.append(profil)
+    return profils
+
+
+def classement():
+    profils = recupere_info_joueur()
+    profils.sort(key=lambda p: p["score_total"], reverse=True)   
+    for index, profil in enumerate(profils, start=1):
+        print(index, profil["prenom"], ":", profil["score_total"])
+    
 theme_pendu = [
 [
     "chien", "chat", "lion", "tigre", "elephant", "girafe", "singe", "lapin",
@@ -325,6 +342,7 @@ def deviner_nombre_menu():
     except ValueError:
         print("Erreur : vous devez entrer un nombre entier.")
  
+    
 def deviner_nombre(max):
     prenom = input("Quel est votre prénom ? : ")
     compte = charger_profil(f"{prenom}.json")
@@ -411,19 +429,15 @@ def input_avec_timeout(prompt, limite=30):
     # saisie non bloquante + timeout
     debut = time.time()
     texte = ""
-
     while True:
         restant = limite - int(time.time() - debut)
         if restant <= 0:
             print(f"\r{prompt}{texte}   (0s) ")
             return None
-
         # affiche le prompt + texte tapé + temps restant
         print(f"\r{prompt}{texte}   ({restant}s) ", end="", flush=True)
-
         if msvcrt.kbhit():
             c = msvcrt.getwch()
-
             if c == "\r":  # entrée
                 print()
                 return texte
@@ -433,7 +447,6 @@ def input_avec_timeout(prompt, limite=30):
                 _ = msvcrt.getwch()
             else:
                 texte += c
-
         time.sleep(0.05)
 
 
@@ -522,8 +535,9 @@ def menu():
     2 - voir profil d'un joueur
     3 - voir la liste des succès
     4 - règle des jeux
-    5 - jouer
-    6 - Quitter
+    5 - classement
+    6 - jouer
+    7 - Quitter
     """
     try:
         while True:
@@ -537,6 +551,8 @@ def menu():
             elif temp == 4:
                 afficher_regle()
             elif temp == 5:
+                classement()
+            elif temp == 6:
                 menu_jeu = """
                 1 - jeu du pendu
                 2- jeu de devinette du chiffre
@@ -558,7 +574,7 @@ def menu():
                     continue
                 else:
                     break
-            elif temp == 6:
+            elif temp == 7:
                 break
     except ValueError:
         print("Erreur : vous devez entrer un nombre entier.")
