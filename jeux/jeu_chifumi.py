@@ -1,3 +1,5 @@
+from option_joueur import *
+from succes import *
 import random 
 
 pierre_papier_ciseau = ["pierre", "papier", "ciseau"]

@@ -1,3 +1,5 @@
+from option_joueur import *
+from succes import *
 import random
 import time
 import msvcrt  # windows only
@@ -150,5 +152,5 @@ def main():
     if max_valeur is not None:
         calcul_mental(max_valeur)
 
-        
+
 main()

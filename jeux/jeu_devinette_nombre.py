@@ -1,3 +1,5 @@
+from succes import *
+from option_joueur import *
 import random
 
 def deviner_nombre_menu():

@@ -1,3 +1,11 @@
+from option_joueur import *
+from succes import *
+from regle import *
+from jeu_chifumi import *
+from jeu_calcul_mental import *
+from jeu_devinette_nombre import *
+from jeu_pendu import *
+
 def menu():
     """
     menu principal du programme.
