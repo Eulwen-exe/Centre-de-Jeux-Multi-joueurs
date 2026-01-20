@@ -1,5 +1,4 @@
 from option_joueur import *
-
 liste_succes = [
     ["gg (premiere victoire)"],
     ["apprentit puant (10 parties joués)"],

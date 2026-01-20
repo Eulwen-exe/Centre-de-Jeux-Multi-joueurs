@@ -143,7 +143,6 @@ def calcul_mental(max_valeur):
     sauvegarder(f"{prenom}.json", compte)
     succes_jeu(f"{prenom}.json")
 
-
 def main():
     """
     lance le calcul mental : demande la difficulté puis démarre la partie.
@@ -151,6 +150,3 @@ def main():
     max_valeur = calcul_mental_menu()
     if max_valeur is not None:
         calcul_mental(max_valeur)
-
-
-

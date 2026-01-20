@@ -26,7 +26,6 @@ regle_pendu = (
     "Trouvez toutes les lettres avant la fin pour gagner.\n"
 )
 
-
 def afficher_regle():
     """
     affiche les règles des trois jeux (calcul mental, deviner le nombre, pendu).
