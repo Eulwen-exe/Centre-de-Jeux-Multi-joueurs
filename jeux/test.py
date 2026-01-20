@@ -46,6 +46,7 @@ regle_devine = (
 )
 
 regle_pendu = (
+    "Regles du jeu du Pendu :\n"
     "Trouvez le mot cache en proposant des lettres.\n "
     "Chaque erreur complete le dessin du pendu.\n "
     "Vous avez droit Ã 6 erreurs.\n "
