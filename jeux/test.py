@@ -68,7 +68,7 @@ def sauvegarder(nom_fichier, dictionnaire):
     sauvegarde un dictionnaire python dans un fichier json.
 
     paramètres :
-        nom_fichier (str) : nom du fichier (ex: "leo.json")
+        nom_fichier (str) : nom du fichier (ex: "Elouan.json")
         dictionnaire (dict) : données à enregistrer
     """
     with open(nom_fichier, "w", encoding="utf-8") as f:
@@ -137,7 +137,7 @@ def succes_jeu(nom_fichier):
     ajoute automatiquement certains succès en fonction des stats du joueur.
 
     paramètres :
-        nom_fichier (str) : fichier profil du joueur (ex: "leo.json")
+        nom_fichier (str) : fichier profil du joueur (ex: "Elouan.json")
 
     succès gérés ici :
         - 10 parties jouées
