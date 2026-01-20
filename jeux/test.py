@@ -631,15 +631,6 @@ def main():
 def menu():
     """
     menu principal du programme.
-
-    options :
-        1 créer profil
-        2 voir profil
-        3 afficher liste des succès
-        4 afficher règles
-        5 classement
-        6 jouer
-        7 quitter
     """
     menu = """
     1 - creer un profil
