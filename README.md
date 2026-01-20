@@ -37,6 +37,16 @@ ce projet est une mini-arcade en python avec :
    - opérations aléatoires (+, -, *)
    - score + parties + succès selon difficulté et résultat
 
+4. **pierre papier ciseau**
+   - le joueur choisit : `pierre`, `papier` ou `ciseau`
+   - l’ordinateur choisit aléatoirement
+   - résultat : victoire / défaite / égalité
+   - gain de points :
+     - victoire : +50
+     - défaite : +20
+     - égalité : +0
+   - met à jour score + parties + succès
+
 ### 🏆 succès
 - succès stockés dans la clé `succes` du profil (liste)
 - ajout automatique selon :

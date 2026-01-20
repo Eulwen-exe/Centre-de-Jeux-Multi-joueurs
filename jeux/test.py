@@ -621,6 +621,20 @@ def calcul_mental(max_valeur):
 
 
 def jeu_pierre_papier_ciseau():
+    """
+    lance une partie de pierre / papier / ciseau contre l'ordinateur.
+
+    fonctionnement :
+        - demande le prénom du joueur puis charge son profil (<prenom>.json)
+        - demande le choix du joueur : "pierre", "papier" ou "ciseau"
+        - l'ordinateur choisit aléatoirement
+        - compare les choix et affiche victoire / défaite / égalité
+        - met à jour :
+            - parties (+1)
+            - score_total (+50 si victoire, +20 si défaite, +0 si égalité)
+            - succès selon le coup gagnant (pierre/papier/ciseau)
+        - sauvegarde le profil et met à jour les succès globaux via succes_jeu()
+    """
     prenom = input("Quel est votre prénom ? : ")
     compte = charger_profil(f"{prenom}.json")
     succes_1 = "gros golem (Gagner avec la pierre)"
