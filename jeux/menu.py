@@ -64,5 +64,3 @@ def menu():
     except ValueError:
         print("Erreur : vous devez entrer un nombre entier.")
 
-
-menu()

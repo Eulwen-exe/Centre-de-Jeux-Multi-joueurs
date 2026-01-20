@@ -153,4 +153,4 @@ def main():
         calcul_mental(max_valeur)
 
 
-main()
+
