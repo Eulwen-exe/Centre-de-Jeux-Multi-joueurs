@@ -1,3 +1,8 @@
+import random
+
+pierre_papier_ciseau = ["pierre", "papier", "ciseau"]
+
+
 def jeu_pierre_papier_ciseau():
     prenom = input("Quel est votre prénom ? : ")
     compte = charger_profil(f"{prenom}.json")
